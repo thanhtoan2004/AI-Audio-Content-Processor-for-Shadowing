@@ -65,8 +65,12 @@ class AudioContentProcessor:
             pass
         
         # Initialize Gemini
-        genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
-        self.gemini_model = genai.GenerativeModel('gemini-1.5-flash')
+        api_key = os.getenv('GEMINI_API_KEY')
+        if api_key:
+            genai.configure(api_key=api_key)
+            self.gemini_model = genai.GenerativeModel('gemini-2.5-flash')
+        else:
+            self.gemini_model = None
         self.whisper_model = None
         self.output_dir = Path("output")
         self.output_dir.mkdir(exist_ok=True)
